@@ -42,31 +42,34 @@ export default function Home() {
       </a>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-sm bg-background/80 border-b border-border">
+      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-background/70 border-b border-border/50 shadow-lg shadow-accent/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 -ml-2"
+            className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 -ml-2 group transition-all duration-200"
             aria-label="Leaguedex Home"
           >
-            <Image
-              src="/logo.svg"
-              alt=""
-              width={32}
-              height={32}
-              className="w-8 h-8"
-              aria-hidden="true"
-            />
-            <span className="font-bold text-lg text-foreground hidden sm:inline">
+            <div className="relative">
+              <Image
+                src="/logo.svg"
+                alt=""
+                width={32}
+                height={32}
+                className="w-8 h-8 transition-transform duration-200 group-hover:scale-110"
+                aria-hidden="true"
+              />
+              <div className="absolute inset-0 bg-accent/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+            </div>
+            <span className="font-bold text-lg text-foreground hidden sm:inline bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
               Leaguedex
             </span>
           </Link>
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-3 sm:gap-4">
             <Link
               href="https://github.com/donnyroufs/leaguedex.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md p-1.5"
+              className="text-muted-foreground hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-lg p-2 hover:bg-accent/10"
               aria-label="View Leaguedex on GitHub"
             >
               <Github size={20} aria-hidden="true" />
@@ -75,7 +78,7 @@ export default function Home() {
               href="https://discord.gg/ycFJxnVvMZ"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md p-1.5"
+              className="text-muted-foreground hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-lg p-2 hover:bg-accent/10"
               aria-label="Join Leaguedex Discord community"
             >
               <DiscordIcon size={20} />
@@ -87,33 +90,65 @@ export default function Home() {
       {/* Hero Section */}
       <section
         id="main-content"
-        className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-background via-background to-secondary"
+        className="relative pt-32 pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto text-center space-y-8">
+        {/* Animated background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-1/4 w-[600px] h-[600px] bg-chart-2/5 rounded-full blur-3xl"></div>
+
+        <div className="relative max-w-7xl mx-auto text-center space-y-10">
           <div className="space-y-6">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground text-balance leading-tight tracking-tight">
-              Your <span className="text-accent">Virtual Coach</span> for League
-              of Legends
+            <div
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-sm text-accent font-medium mb-4 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.1s" }}
+            >
+              <Zap className="w-4 h-4" aria-hidden="true" />
+              <span>Open Source</span>
+            </div>
+            <h1
+              className="text-5xl sm:text-6xl lg:text-8xl font-bold text-foreground text-balance leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.2s" }}
+            >
+              Your{" "}
+              <span className="relative inline-block">
+                <span className="relative z-10 bg-gradient-to-r from-accent via-accent to-chart-2 bg-clip-text text-transparent">
+                  Virtual Coach
+                </span>
+                <span className="absolute inset-0 bg-accent/20 blur-2xl -z-0"></span>
+              </span>
+              <br />
+              for League of Legends
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
+            <p
+              className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto text-balance leading-relaxed font-light opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.4s" }}
+            >
               Create custom cues to build better habits, sharpen your skills,
               and stay mentally sharp. Get TTS reminders based on time or
               in-game state.
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+          <div
+            className="flex flex-col sm:flex-row gap-4 justify-center pt-6 opacity-0 animate-fade-in-up"
+            style={{ animationDelay: "0.6s" }}
+          >
             <Button
               size="lg"
               asChild
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold gap-2 text-base px-8"
+              className="group relative bg-accent hover:bg-accent/90 text-accent-foreground font-semibold gap-2 text-base px-8 shadow-lg shadow-accent/30 hover:shadow-accent/50 transition-all duration-300 hover:scale-105"
             >
               <a
                 href="https://github.com/donnyroufs/leaguedex.app/releases/latest/download/Leaguedex-setup.exe"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Download size={20} aria-hidden="true" />
+                <Download
+                  size={20}
+                  aria-hidden="true"
+                  className="group-hover:animate-bounce"
+                />
                 Download Now (Windows)
               </a>
             </Button>
@@ -121,7 +156,7 @@ export default function Home() {
               size="lg"
               variant="outline"
               asChild
-              className="border-accent text-accent hover:!bg-transparent hover:!text-accent hover:underline font-semibold text-base bg-transparent px-8"
+              className="group border-2 border-accent/30 text-accent hover:!bg-accent/10 hover:!text-accent hover:border-accent/60 hover:underline font-semibold text-base bg-transparent px-8 backdrop-blur-sm transition-all duration-300 hover:scale-105"
             >
               <a
                 href="https://github.com/donnyroufs/leaguedex.app"
@@ -134,25 +169,29 @@ export default function Home() {
             </Button>
           </div>
 
-          <div className="pt-12 sm:pt-16">
+          <div
+            className="pt-16 sm:pt-20 opacity-0 animate-fade-in-up"
+            style={{ animationDelay: "0.8s" }}
+          >
             <div className="relative mx-auto max-w-5xl">
               {/* Multiple layered glow effects for 3D depth */}
               <div className="absolute inset-0 -inset-8 bg-accent/30 blur-3xl rounded-3xl opacity-60"></div>
               <div className="absolute inset-0 -inset-4 bg-accent/20 blur-2xl rounded-2xl opacity-40"></div>
               <div className="absolute inset-0 -inset-2 bg-accent/10 blur-xl rounded-xl opacity-30"></div>
 
-              {/* Main container with 3D transforms and layered shadows */}
-              <div className="relative overflow-hidden rounded-lg border border-accent/20 shadow-[0_0_60px_rgba(0,217,255,0.3),0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-sm bg-background/40 transform perspective-1000 rotate-x-[2deg]">
+              {/* Video container with 3D effects */}
+              <div className="relative overflow-hidden rounded-lg border border-accent/20 shadow-[0_0_60px_rgba(0,217,255,0.3),0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-sm bg-background/40">
                 {/* Subtle gradient overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-background/20 pointer-events-none z-10"></div>
-                <Image
-                  src="/leaguedex-view.png"
-                  alt="Leaguedex application interface"
-                  width={1200}
-                  height={800}
-                  className="w-full h-auto -mx-0.5 -my-0.25 scale-x-[1.01] scale-y-[1.005] relative z-0"
-                  priority
-                />
+                <div className="relative aspect-video -mx-0.5 -my-0.25 scale-x-[1.01] scale-y-[1.005]">
+                  <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src="https://www.youtube.com/embed/SL_V0_jrz7c"
+                    title="Leaguedex App Preview"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
               </div>
             </div>
           </div>
@@ -160,19 +199,25 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-border bg-background">
+      <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-t border-border/50 bg-gradient-to-b from-background via-background to-secondary/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-12 sm:mb-16 text-center">
-            Core Features - Always Free
-          </h2>
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+              Core Features
+            </h2>
+            <p className="text-lg text-muted-foreground">Open Source</p>
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Feature 1 */}
-            <Card className="bg-card border-border hover:border-accent/50 transition-all duration-200 p-6 sm:p-8 space-y-4 h-full">
-              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                <Zap className="text-accent" size={24} aria-hidden="true" />
+            <Card className="group relative bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 p-8 space-y-5 h-full hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-accent/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0 border border-accent/20 group-hover:border-accent/40 transition-colors">
+                  <Zap className="text-accent" size={28} aria-hidden="true" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-foreground">
+              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
                 Manual Cue Creation
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -182,11 +227,14 @@ export default function Home() {
             </Card>
 
             {/* Feature 2 */}
-            <Card className="bg-card border-border hover:border-accent/50 transition-all duration-200 p-6 sm:p-8 space-y-4 h-full">
-              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                <Users className="text-accent" size={24} aria-hidden="true" />
+            <Card className="group relative bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 p-8 space-y-5 h-full hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-accent/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0 border border-accent/20 group-hover:border-accent/40 transition-colors">
+                  <Users className="text-accent" size={28} aria-hidden="true" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-foreground">
+              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
                 Share Cuepacks
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -196,11 +244,14 @@ export default function Home() {
             </Card>
 
             {/* Feature 3 */}
-            <Card className="bg-card border-border hover:border-accent/50 transition-all duration-200 p-6 sm:p-8 space-y-4 h-full sm:col-span-2 lg:col-span-1">
-              <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
-                <Zap className="text-accent" size={24} aria-hidden="true" />
+            <Card className="group relative bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 p-8 space-y-5 h-full sm:col-span-2 lg:col-span-1 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
+              <div className="relative">
+                <div className="absolute inset-0 bg-accent/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0 border border-accent/20 group-hover:border-accent/40 transition-colors">
+                  <Zap className="text-accent" size={28} aria-hidden="true" />
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-foreground">
+              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
                 Voice Reminders
               </h3>
               <p className="text-muted-foreground leading-relaxed">
@@ -213,18 +264,29 @@ export default function Home() {
       </section>
 
       {/* Showcase Section */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-secondary">
+      <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-secondary/50 to-background border-t border-border/50">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-start md:items-center">
-            <div className="space-y-6 sm:space-y-8">
-              <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
-                What You Can Create
-              </h2>
+          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
+                  What You Can{" "}
+                  <span className="bg-gradient-to-r from-accent to-chart-2 bg-clip-text text-transparent">
+                    Create
+                  </span>
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  Powerful features designed for competitive players and coaches
+                </p>
+              </div>
               <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-1 bg-accent rounded-full flex-shrink-0 mt-1"></div>
+                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
+                  <div className="relative flex-shrink-0 mt-1">
+                    <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
+                    <div className="absolute inset-0 bg-accent/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
+                  </div>
                   <div>
-                    <h4 className="font-bold text-foreground mb-2">
+                    <h4 className="font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
                       Habit Reminders
                     </h4>
                     <p className="text-muted-foreground leading-relaxed">
@@ -233,10 +295,13 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-1 bg-chart-2 rounded-full flex-shrink-0 mt-1"></div>
+                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
+                  <div className="relative flex-shrink-0 mt-1">
+                    <div className="w-1.5 h-1.5 bg-chart-2 rounded-full"></div>
+                    <div className="absolute inset-0 bg-chart-2/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
+                  </div>
                   <div>
-                    <h4 className="font-bold text-foreground mb-2">
+                    <h4 className="font-bold text-foreground mb-2 group-hover:text-chart-2 transition-colors">
                       Skill Development
                     </h4>
                     <p className="text-muted-foreground leading-relaxed">
@@ -245,10 +310,13 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-1 bg-accent rounded-full flex-shrink-0 mt-1"></div>
+                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
+                  <div className="relative flex-shrink-0 mt-1">
+                    <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
+                    <div className="absolute inset-0 bg-accent/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
+                  </div>
                   <div>
-                    <h4 className="font-bold text-foreground mb-2">
+                    <h4 className="font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
                       Time-Based Cues
                     </h4>
                     <p className="text-muted-foreground leading-relaxed">
@@ -257,10 +325,13 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-1 bg-chart-2 rounded-full flex-shrink-0 mt-1"></div>
+                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
+                  <div className="relative flex-shrink-0 mt-1">
+                    <div className="w-1.5 h-1.5 bg-chart-2 rounded-full"></div>
+                    <div className="absolute inset-0 bg-chart-2/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
+                  </div>
                   <div>
-                    <h4 className="font-bold text-foreground mb-2">
+                    <h4 className="font-bold text-foreground mb-2 group-hover:text-chart-2 transition-colors">
                       State-Based Triggers
                     </h4>
                     <p className="text-muted-foreground leading-relaxed">
@@ -273,50 +344,24 @@ export default function Home() {
             </div>
 
             <div className="relative">
-              <div className="bg-card rounded-lg border border-border p-6 space-y-4">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-3 h-3 rounded-full bg-destructive"
-                    aria-hidden="true"
-                  ></div>
-                  <span className="text-sm text-muted-foreground font-medium">
-                    Active Pack
-                  </span>
-                </div>
-                <div className="space-y-3">
-                  <div className="bg-secondary rounded p-4 space-y-2 border-l-2 border-accent">
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide font-medium">
-                      OBJECTIVE
-                    </p>
-                    <p className="text-foreground font-semibold">
-                      Prepare for dragon!
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      90 seconds before Dragon spawns
-                    </p>
-                  </div>
-                  <div className="bg-secondary rounded p-4 space-y-2 border-l-2 border-chart-2">
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide font-medium">
-                      EVENT
-                    </p>
-                    <p className="text-foreground font-semibold">
-                      Watch out for gank
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      At 3:45 (time based)
-                    </p>
-                  </div>
-                  <div className="bg-secondary rounded p-4 space-y-2 border-l-2 border-accent">
-                    <p className="text-sm text-muted-foreground uppercase tracking-wide font-medium">
-                      OBJECTIVE
-                    </p>
-                    <p className="text-foreground font-semibold">
-                      Baron is up!
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      When Baron spawns
-                    </p>
-                  </div>
+              {/* App Screenshot */}
+              <div className="relative mx-auto max-w-2xl">
+                {/* Multiple layered glow effects for 3D depth */}
+                <div className="absolute inset-0 -inset-8 bg-accent/30 blur-3xl rounded-3xl opacity-60"></div>
+                <div className="absolute inset-0 -inset-4 bg-accent/20 blur-2xl rounded-2xl opacity-40"></div>
+                <div className="absolute inset-0 -inset-2 bg-accent/10 blur-xl rounded-xl opacity-30"></div>
+
+                {/* Main container with 3D transforms and layered shadows */}
+                <div className="relative overflow-hidden rounded-lg border border-accent/20 shadow-[0_0_60px_rgba(0,217,255,0.3),0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-sm bg-background/40">
+                  {/* Subtle gradient overlay for depth */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-background/20 pointer-events-none z-10"></div>
+                  <Image
+                    src="/leaguedex-view.png"
+                    alt="Leaguedex application interface"
+                    width={1200}
+                    height={800}
+                    className="w-full h-auto -mx-0.5 -my-0.25 scale-x-[1.01] scale-y-[1.005] relative z-0"
+                  />
                 </div>
               </div>
             </div>
@@ -325,59 +370,35 @@ export default function Home() {
       </section>
 
       {/* Coaches Section */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-border bg-background">
-        <div className="max-w-4xl mx-auto text-center space-y-8 sm:space-y-12">
-          <div className="space-y-4">
+      <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-secondary/30 to-background border-t border-border/50">
+        <div className="max-w-4xl mx-auto text-center space-y-6">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-accent/10 border border-accent/20 text-xs font-semibold text-accent uppercase tracking-wider">
+              For Professionals
+            </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
-              For Coaches & Content Creators
+              Coaches & Content Creators
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Interested in integrating Leaguedex into your coaching workflow?
-              Let's talk about how we can help your students improve.
-            </p>
           </div>
-
-          <Button
-            asChild
-            size="lg"
-            className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold gap-2 px-8"
-          >
-            <Link
-              href="https://discord.gg/ycFJxnVvMZ"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <DiscordIcon size={18} />
-              Join Discord to Discuss
-            </Link>
-          </Button>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-secondary border-t border-border">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
-            Ready to Improve Your Game?
-          </h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Start using Leaguedex today. Core features are always free, and it's
-            open source.
+            Interested in integrating Leaguedex into your coaching workflow?
+            Let's talk about how we can help your students improve.
           </p>
-          <div className="flex justify-center">
+          <div>
             <Button
-              size="lg"
               asChild
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold gap-2 text-base px-8"
+              size="lg"
+              variant="outline"
+              className="group border-2 border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/60 font-semibold gap-2 px-8 backdrop-blur-sm transition-all duration-300"
             >
-              <a
-                href="https://github.com/donnyroufs/leaguedex.app/releases/latest/download/Leaguedex-setup.exe"
+              <Link
+                href="https://discord.gg/ycFJxnVvMZ"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Download size={20} aria-hidden="true" />
-                Download for Windows
-              </a>
+                <DiscordIcon size={18} />
+                Join Discord to Discuss
+              </Link>
             </Button>
           </div>
         </div>
@@ -463,7 +484,7 @@ export default function Home() {
 
           <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground text-center sm:text-left">
-              © 2025 Leaguedex. Open source & core features free forever.
+              © 2025 Leaguedex. Open source.
             </p>
             <div className="flex items-center gap-6">
               <Link
