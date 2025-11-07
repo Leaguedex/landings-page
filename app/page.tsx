@@ -389,7 +389,7 @@ export default function Home() {
               asChild
               size="lg"
               variant="outline"
-              className="group border-2 border-accent/30 text-accent hover:bg-accent/10 hover:border-accent/60 font-semibold gap-2 px-8 backdrop-blur-sm transition-all duration-300"
+              className="group border-2 border-accent/30 text-accent hover:!bg-accent/10 hover:!text-accent hover:border-accent/60 font-semibold gap-2 px-8 backdrop-blur-sm bg-transparent transition-all duration-300"
             >
               <Link
                 href="https://discord.gg/ycFJxnVvMZ"
