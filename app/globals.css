@@ -4,44 +4,44 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #0a0e27;
-  --foreground: #ffffff;
-  --card: #0f1629;
-  --card-foreground: #ffffff;
-  --popover: #0f1629;
-  --popover-foreground: #ffffff;
-  --primary: #0a0e27;
-  --primary-foreground: #ffffff;
-  --secondary: #1a1f3a;
-  --secondary-foreground: #ffffff;
-  --muted: #2d3250;
-  --muted-foreground: #a0aac0;
-  --accent: #00d9ff;
-  --accent-foreground: #0a0e27;
-  --destructive: #ff4757;
-  --destructive-foreground: #ffffff;
-  --border: #1a1f3a;
-  --input: #0f1629;
-  --ring: #00d9ff;
-  --chart-1: #00d9ff;
-  --chart-2: #ffd700;
-  --chart-3: #ff4757;
-  --chart-4: #00d9ff;
-  --chart-5: #ffd700;
-  --sidebar: #0a0e27;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00d9ff;
-  --sidebar-primary-foreground: #0a0e27;
-  --sidebar-accent: #ffd700;
-  --sidebar-accent-foreground: #0a0e27;
-  --sidebar-border: #1a1f3a;
-  --sidebar-ring: #00d9ff;
-  --radius: 0.625rem;
+  --background: #08090b;
+  --foreground: #fafafa;
+  --card: #0f1012;
+  --card-foreground: #fafafa;
+  --popover: #0f1012;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #08090b;
+  --secondary: #16171a;
+  --secondary-foreground: #fafafa;
+  --muted: #16171a;
+  --muted-foreground: #8a8a94;
+  --accent: #a3e635;
+  --accent-foreground: #0a0a0a;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #1f2024;
+  --input: #16171a;
+  --ring: #a3e635;
+  --chart-1: #a3e635;
+  --chart-2: #f97316;
+  --chart-3: #3b82f6;
+  --chart-4: #a855f7;
+  --chart-5: #ec4899;
+  --sidebar: #08090b;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #a3e635;
+  --sidebar-primary-foreground: #0a0a0a;
+  --sidebar-accent: #f97316;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #1f2024;
+  --sidebar-ring: #a3e635;
+  --radius: 0.5rem;
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
-  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --font-sans: var(--font-geist-sans), "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono Fallback", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -84,8 +84,16 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    color-scheme: dark;
+  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "ss01", "ss02", "cv11";
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
   }
 }
 
@@ -101,7 +109,7 @@
     white-space: nowrap;
     border-width: 0;
   }
-  
+
   .focus\:not-sr-only:focus {
     position: static;
     width: auto;
@@ -113,10 +121,35 @@
     white-space: normal;
   }
 
+  /* Decorative grid used behind the hero */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(circle at center, rgb(255 255 255 / 0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  /* Soft conic aura, used behind the hero video */
+  .aura {
+    background: conic-gradient(
+      from 180deg at 50% 50%,
+      rgb(163 230 53 / 0.18) 0deg,
+      rgb(163 230 53 / 0) 80deg,
+      rgb(249 115 22 / 0.12) 180deg,
+      rgb(163 230 53 / 0) 260deg,
+      rgb(163 230 53 / 0.18) 360deg
+    );
+  }
+
   @keyframes fade-in-up {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(24px);
     }
     to {
       opacity: 1;
@@ -125,6 +158,15 @@
   }
 
   .animate-fade-in-up {
-    animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
   }
 }

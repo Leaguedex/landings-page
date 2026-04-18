@@ -1,17 +1,27 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Download, Users, Zap, Github } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Clock,
+  Download,
+  Github,
+  Mic,
+  Share2,
+  Sparkles,
+  Target,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-// Discord Icon Component
-function DiscordIcon({
-  size = 20,
-  className = "",
-}: {
-  size?: number;
-  className?: string;
-}) {
+const DOWNLOAD_URL =
+  "https://github.com/donnyroufs/leaguedex.app/releases/latest/download/Leaguedex-setup.exe";
+const REPO_URL = "https://github.com/donnyroufs/leaguedex.app";
+const DISCORD_URL = "https://discord.gg/ycFJxnVvMZ";
+const ISSUES_URL = "https://github.com/donnyroufs/leaguedex.app/issues";
+const RELEASES_URL = "https://github.com/donnyroufs/leaguedex.app/releases/latest";
+
+function DiscordIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
   return (
     <svg
       width={size}
@@ -30,10 +40,57 @@ function DiscordIcon({
   );
 }
 
+type Feature = { num: string; icon: LucideIcon; title: string; desc: string };
+const FEATURES: Feature[] = [
+  {
+    num: "01",
+    icon: Clock,
+    title: "Timer cues",
+    desc: "Fire reminders at specific timestamps or repeating intervals. The clock, but opinionated.",
+  },
+  {
+    num: "02",
+    icon: Target,
+    title: "State triggers",
+    desc: "Cues that react to in-game events: objectives, resources, cooldowns. Context-aware by default.",
+  },
+  {
+    num: "03",
+    icon: Mic,
+    title: "Voice reminders",
+    desc: "Text-to-speech speaks your cues out loud so your eyes stay on the map, not on an overlay.",
+  },
+  {
+    num: "04",
+    icon: Share2,
+    title: "Shareable cuepacks",
+    desc: "Package your cues, hand them to your team or the community. Import, remix, iterate.",
+  },
+  {
+    num: "05",
+    icon: Sparkles,
+    title: "Open source",
+    desc: "MIT-licensed. Read the source, file an issue, ship a PR. No telemetry, no accounts.",
+  },
+  {
+    num: "06",
+    icon: Download,
+    title: "Runs locally",
+    desc: "Tiny Windows app that lives in your tray. Zero latency, no cloud round-trip, no subscription.",
+  },
+];
+
+type Cue = { trigger: string; kind: "TIMER" | "STATE"; message: string; tag: string };
+const CUES: Cue[] = [
+  { kind: "TIMER", trigger: "every 00:30", message: "Check your minimap.", tag: "habit" },
+  { kind: "STATE", trigger: "dragon_spawn - 00:30", message: "Ward the pit, prep rotation.", tag: "objective" },
+  { kind: "TIMER", trigger: "at 14:00", message: "Herald in one minute.", tag: "habit" },
+  { kind: "STATE", trigger: "low_mana && lane_pushed", message: "Back to base?", tag: "resource" },
+];
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Skip to main content for accessibility */}
+    <div className="min-h-screen bg-background text-foreground">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-accent-foreground focus:rounded-md focus:font-semibold"
@@ -41,474 +98,524 @@ export default function Home() {
         Skip to main content
       </a>
 
+      {/* Decorative background grid */}
+      <div
+        className="pointer-events-none fixed inset-0 bg-grid [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,black_20%,transparent_75%)]"
+        aria-hidden="true"
+      />
+
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md bg-background/70 border-b border-border/50 shadow-lg shadow-accent/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <nav className="fixed top-0 inset-x-0 z-50 backdrop-blur-xl bg-background/70 border-b border-border/60">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 -ml-2 group transition-all duration-200"
+            className="flex items-center gap-2.5 group rounded-md -ml-1 px-1 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background"
             aria-label="Leaguedex Home"
           >
-            <div className="relative">
-              <Image
-                src="/logo.svg"
-                alt=""
-                width={32}
-                height={32}
-                className="w-8 h-8 transition-transform duration-200 group-hover:scale-110"
-                aria-hidden="true"
-              />
-              <div className="absolute inset-0 bg-accent/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-            </div>
-            <span className="font-bold text-lg text-foreground hidden sm:inline bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
-              Leaguedex
+            <Image
+              src="/logo.svg"
+              alt=""
+              width={22}
+              height={22}
+              className="w-[22px] h-[22px]"
+              aria-hidden="true"
+            />
+            <span className="font-semibold tracking-tight text-[15px]">leaguedex</span>
+            <span className="hidden sm:inline-flex items-center font-mono text-[10px] leading-none uppercase text-muted-foreground border border-border rounded px-1.5 py-1 ml-1">
+              v1.0 · beta
             </span>
           </Link>
-          <div className="flex items-center gap-3 sm:gap-4">
+
+          <div className="flex items-center gap-1">
             <Link
-              href="https://github.com/donnyroufs/leaguedex.app"
+              href={REPO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-lg p-2 hover:bg-accent/10"
-              aria-label="View Leaguedex on GitHub"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
             >
-              <Github size={20} aria-hidden="true" />
+              <Github size={14} aria-hidden="true" />
+              GitHub
             </Link>
             <Link
-              href="https://discord.gg/ycFJxnVvMZ"
+              href={DISCORD_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-accent transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-lg p-2 hover:bg-accent/10"
-              aria-label="Join Leaguedex Discord community"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors px-3 py-1.5 rounded-md hover:bg-muted"
             >
-              <DiscordIcon size={20} />
+              <DiscordIcon size={14} />
+              Discord
             </Link>
+            <Link
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="sm:hidden text-muted-foreground hover:text-foreground transition-colors p-2 rounded-md hover:bg-muted"
+            >
+              <Github size={16} aria-hidden="true" />
+            </Link>
+            <Link
+              href={DISCORD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Discord"
+              className="sm:hidden text-muted-foreground hover:text-foreground transition-colors p-2 rounded-md hover:bg-muted"
+            >
+              <DiscordIcon size={16} />
+            </Link>
+            <Button
+              asChild
+              size="sm"
+              className="ml-1.5 h-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium text-[13px] rounded-md gap-1.5 px-3"
+            >
+              <a href={DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">
+                Download
+                <ArrowRight size={13} aria-hidden="true" />
+              </a>
+            </Button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section
-        id="main-content"
-        className="relative pt-32 pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden"
-      >
-        {/* Animated background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/50"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-20 right-1/4 w-[600px] h-[600px] bg-chart-2/5 rounded-full blur-3xl"></div>
-
-        <div className="relative max-w-7xl mx-auto text-center space-y-10">
-          <div className="space-y-6">
+      <main id="main-content">
+        {/* Hero */}
+        <section className="relative pt-36 sm:pt-40 pb-20 px-4 sm:px-6">
+          <div className="relative mx-auto max-w-5xl text-center">
             <div
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-sm text-accent font-medium mb-4 opacity-0 animate-fade-in-up"
-              style={{ animationDelay: "0.1s" }}
+              className="opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.05s" }}
             >
-              <Zap className="w-4 h-4" aria-hidden="true" />
-              <span>Open Source</span>
-            </div>
-            <h1
-              className="text-5xl sm:text-6xl lg:text-8xl font-bold text-foreground text-balance leading-[1.1] tracking-tight opacity-0 animate-fade-in-up"
-              style={{ animationDelay: "0.2s" }}
-            >
-              Your{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10 bg-gradient-to-r from-accent via-accent to-chart-2 bg-clip-text text-transparent">
-                  Virtual Coach
+              <Link
+                href={REPO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-foreground hover:border-accent/60 transition-colors"
+              >
+                <span className="relative inline-flex">
+                  <span className="absolute inset-0 rounded-full bg-accent/60 blur-[3px] animate-pulse-soft" />
+                  <span className="relative w-1.5 h-1.5 rounded-full bg-accent" />
                 </span>
-                <span className="absolute inset-0 bg-accent/20 blur-2xl -z-0"></span>
-              </span>
-              <br />
-              for League of Legends
-            </h1>
-            <p
-              className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto text-balance leading-relaxed font-light opacity-0 animate-fade-in-up"
-              style={{ animationDelay: "0.4s" }}
-            >
-              Create custom cues to build better habits, sharpen your skills,
-              and stay mentally sharp. Get TTS reminders based on time or
-              in-game state.
-            </p>
-          </div>
-
-          <div
-            className="flex flex-col sm:flex-row gap-4 justify-center pt-6 opacity-0 animate-fade-in-up"
-            style={{ animationDelay: "0.6s" }}
-          >
-            <Button
-              size="lg"
-              asChild
-              className="group relative bg-accent hover:bg-accent/90 text-accent-foreground font-semibold gap-2 text-base px-8 shadow-lg shadow-accent/30 hover:shadow-accent/50 transition-all duration-300 hover:scale-105"
-            >
-              <a
-                href="https://github.com/donnyroufs/leaguedex.app/releases/latest/download/Leaguedex-setup.exe"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Download
-                  size={20}
+                Open source · Free forever
+                <ArrowUpRight
+                  size={12}
+                  className="opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
                   aria-hidden="true"
-                  className="group-hover:animate-bounce"
                 />
-                Download Now (Windows)
-              </a>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              asChild
-              className="group border-2 border-accent/30 text-accent hover:!bg-accent/10 hover:!text-accent hover:border-accent/60 hover:underline font-semibold text-base bg-transparent px-8 backdrop-blur-sm transition-all duration-300 hover:scale-105"
+              </Link>
+            </div>
+
+            <h1
+              className="mt-8 text-[44px] leading-[1.02] sm:text-6xl lg:text-[76px] font-semibold tracking-[-0.035em] text-balance opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.15s" }}
             >
-              <a
-                href="https://github.com/donnyroufs/leaguedex.app"
-                target="_blank"
-                rel="noopener noreferrer"
+              Your virtual coach,
+              <br />
+              <span className="text-muted-foreground">whispering in your ear.</span>
+            </h1>
+
+            <p
+              className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed text-balance opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.25s" }}
+            >
+              Leaguedex fires custom voice cues on timers or in-game state. Build habits,
+              sharpen skills, stay mentally sharp, without ever looking away from the map.
+            </p>
+
+            <div
+              className="mt-9 flex flex-col sm:flex-row gap-2.5 justify-center opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.35s" }}
+            >
+              <Button
+                asChild
+                size="lg"
+                className="group h-11 px-5 gap-2 rounded-md font-medium bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_0_0_1px_rgba(0,0,0,0.1)]"
               >
-                <Github size={20} aria-hidden="true" />
-                View on GitHub
-              </a>
-            </Button>
-          </div>
+                <a href={DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">
+                  <Download size={16} aria-hidden="true" />
+                  Download for Windows
+                  <ArrowRight
+                    size={14}
+                    aria-hidden="true"
+                    className="opacity-60 group-hover:translate-x-0.5 transition-transform"
+                  />
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-11 px-5 gap-2 rounded-md font-medium bg-transparent border-border text-foreground hover:bg-muted hover:text-foreground hover:border-border"
+              >
+                <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+                  <Github size={16} aria-hidden="true" />
+                  View source
+                </a>
+              </Button>
+            </div>
 
-          <div
-            className="pt-16 sm:pt-20 opacity-0 animate-fade-in-up"
-            style={{ animationDelay: "0.8s" }}
-          >
-            <div className="relative mx-auto max-w-5xl">
-              {/* Multiple layered glow effects for 3D depth */}
-              <div className="absolute inset-0 -inset-8 bg-accent/30 blur-3xl rounded-3xl opacity-60"></div>
-              <div className="absolute inset-0 -inset-4 bg-accent/20 blur-2xl rounded-2xl opacity-40"></div>
-              <div className="absolute inset-0 -inset-2 bg-accent/10 blur-xl rounded-xl opacity-30"></div>
+            <p
+              className="mt-5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.45s" }}
+            >
+              Windows 10+ &nbsp;·&nbsp; ~12&nbsp;MB &nbsp;·&nbsp; No account
+            </p>
 
-              {/* Video container with 3D effects */}
-              <div className="relative overflow-hidden rounded-lg border border-accent/20 shadow-[0_0_60px_rgba(0,217,255,0.3),0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-sm bg-background/40">
-                {/* Subtle gradient overlay for depth */}
-                <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-background/20 pointer-events-none z-10"></div>
-                <div className="relative aspect-video -mx-0.5 -my-0.25 scale-x-[1.01] scale-y-[1.005]">
+            {/* Video preview */}
+            <div
+              className="relative mt-16 sm:mt-20 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: "0.55s" }}
+            >
+              <div
+                className="pointer-events-none absolute -inset-x-24 -top-16 h-[420px] aura opacity-70 blur-3xl"
+                aria-hidden="true"
+              />
+              <div className="relative mx-auto max-w-4xl rounded-xl border border-border bg-card/70 backdrop-blur-sm p-1.5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.02)_inset]">
+                <div className="flex items-center gap-1.5 px-3 py-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-border" />
+                  <span className="ml-auto font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    preview · 1080p
+                  </span>
+                </div>
+                <div className="relative aspect-video rounded-md overflow-hidden border border-border bg-background">
                   <iframe
                     className="absolute inset-0 w-full h-full"
                     src="https://www.youtube.com/embed/SL_V0_jrz7c"
                     title="Leaguedex App Preview"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 border-t border-border/50 bg-gradient-to-b from-background via-background to-secondary/30">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 sm:mb-20">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
-              Core Features
-            </h2>
-            <p className="text-lg text-muted-foreground">Open Source</p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {/* Feature 1 */}
-            <Card className="group relative bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 p-8 space-y-5 h-full hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
-              <div className="relative">
-                <div className="absolute inset-0 bg-accent/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0 border border-accent/20 group-hover:border-accent/40 transition-colors">
-                  <Zap className="text-accent" size={28} aria-hidden="true" />
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
-                Manual Cue Creation
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Create cues based on time or in-game state. Set reminders for
-                anything you want to improve on or stay sharp about.
-              </p>
-            </Card>
-
-            {/* Feature 2 */}
-            <Card className="group relative bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 p-8 space-y-5 h-full hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
-              <div className="relative">
-                <div className="absolute inset-0 bg-accent/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0 border border-accent/20 group-hover:border-accent/40 transition-colors">
-                  <Users className="text-accent" size={28} aria-hidden="true" />
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
-                Share Cuepacks
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Build cuepacks and share them with your team or the community.
-                Help others form better habits and improve their gameplay.
-              </p>
-            </Card>
-
-            {/* Feature 3 */}
-            <Card className="group relative bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 p-8 space-y-5 h-full sm:col-span-2 lg:col-span-1 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1">
-              <div className="relative">
-                <div className="absolute inset-0 bg-accent/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative w-14 h-14 rounded-xl bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center flex-shrink-0 border border-accent/20 group-hover:border-accent/40 transition-colors">
-                  <Zap className="text-accent" size={28} aria-hidden="true" />
-                </div>
-              </div>
-              <h3 className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
-                Voice Reminders
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Get TTS reminders that keep you focused. Listen while you
-                play—no need to check your screen.
-              </p>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Showcase Section */}
-      <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-secondary/50 to-background border-t border-border/50">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                  What You Can{" "}
-                  <span className="bg-gradient-to-r from-accent to-chart-2 bg-clip-text text-transparent">
-                    Create
-                  </span>
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Powerful features designed for competitive players and coaches
-                </p>
-              </div>
-              <div className="space-y-6">
-                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
-                  <div className="relative flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
-                    <div className="absolute inset-0 bg-accent/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
-                      Habit Reminders
-                    </h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      "Check your minimap" at 1:00, 2:00, 3:00... Build
-                      consistency and awareness.
-                    </p>
-                  </div>
-                </div>
-                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
-                  <div className="relative flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 bg-chart-2 rounded-full"></div>
-                    <div className="absolute inset-0 bg-chart-2/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-2 group-hover:text-chart-2 transition-colors">
-                      Skill Development
-                    </h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Cues to practice specific skills: positioning, trading,
-                      resource management, whatever you need to sharpen.
-                    </p>
-                  </div>
-                </div>
-                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
-                  <div className="relative flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 bg-accent rounded-full"></div>
-                    <div className="absolute inset-0 bg-accent/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-2 group-hover:text-accent transition-colors">
-                      Time-Based Cues
-                    </h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Reminders at specific timestamps or intervals to keep you
-                      engaged and focused throughout the game.
-                    </p>
-                  </div>
-                </div>
-                <div className="group flex gap-4 p-4 rounded-lg hover:bg-card/30 transition-colors duration-200">
-                  <div className="relative flex-shrink-0 mt-1">
-                    <div className="w-1.5 h-1.5 bg-chart-2 rounded-full"></div>
-                    <div className="absolute inset-0 bg-chart-2/30 rounded-full blur-sm group-hover:blur-md transition-all"></div>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-foreground mb-2 group-hover:text-chart-2 transition-colors">
-                      State-Based Triggers
-                    </h4>
-                    <p className="text-muted-foreground leading-relaxed">
-                      Create cues that trigger based on game events like
-                      objectives spawning or specific in-game conditions.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              {/* App Screenshot */}
-              <div className="relative mx-auto max-w-2xl">
-                {/* Multiple layered glow effects for 3D depth */}
-                <div className="absolute inset-0 -inset-8 bg-accent/30 blur-3xl rounded-3xl opacity-60"></div>
-                <div className="absolute inset-0 -inset-4 bg-accent/20 blur-2xl rounded-2xl opacity-40"></div>
-                <div className="absolute inset-0 -inset-2 bg-accent/10 blur-xl rounded-xl opacity-30"></div>
-
-                {/* Main container with 3D transforms and layered shadows */}
-                <div className="relative overflow-hidden rounded-lg border border-accent/20 shadow-[0_0_60px_rgba(0,217,255,0.3),0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-sm bg-background/40">
-                  {/* Subtle gradient overlay for depth */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-accent/5 via-transparent to-background/20 pointer-events-none z-10"></div>
-                  <Image
-                    src="/leaguedex-view.png"
-                    alt="Leaguedex application interface"
-                    width={1200}
-                    height={800}
-                    className="w-full h-auto -mx-0.5 -my-0.25 scale-x-[1.01] scale-y-[1.005] relative z-0"
                   />
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Coaches Section */}
-      <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-secondary/30 to-background border-t border-border/50">
-        <div className="max-w-4xl mx-auto text-center space-y-6">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-accent/10 border border-accent/20 text-xs font-semibold text-accent uppercase tracking-wider">
-              For Professionals
+        {/* Trust strip */}
+        <section className="relative border-y border-border bg-card/40 backdrop-blur-sm">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-2 sm:grid-cols-4 divide-x divide-border [&>*:nth-child(n+3)]:border-t sm:[&>*:nth-child(n+3)]:border-t-0">
+            <TrustItem label="License" value="MIT" />
+            <TrustItem label="Platform" value="Windows 10+" />
+            <TrustItem label="Install size" value="~12 MB" />
+            <TrustItem label="Price" value="Free" accent />
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="relative px-4 sm:px-6 py-24 sm:py-28">
+          <div className="relative mx-auto max-w-6xl">
+            <div className="max-w-2xl mb-14 sm:mb-16">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
+                ◆ &nbsp;Features
+              </p>
+              <h2 className="text-3xl sm:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-balance">
+                Built for players who want to{" "}
+                <span className="text-muted-foreground">improve deliberately.</span>
+              </h2>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
-              Coaches & Content Creators
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-border rounded-xl overflow-hidden border border-border">
+              {FEATURES.map((f) => (
+                <FeatureTile key={f.num} {...f} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Cue examples */}
+        <section className="relative border-t border-border bg-gradient-to-b from-background to-card/30 px-4 sm:px-6 py-24 sm:py-28">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid lg:grid-cols-2 gap-14 lg:gap-16 items-start">
+              <div className="lg:sticky lg:top-28">
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
+                  ▸ &nbsp;Examples
+                </p>
+                <h2 className="text-3xl sm:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-balance">
+                  Turn any habit into a cue.
+                </h2>
+                <p className="mt-5 text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg">
+                  Compose cues like you&apos;d compose a build path. Ping yourself at a
+                  timestamp, react to a state change, or chain conditions together. Save them
+                  as a cuepack, share them with your team, iterate until it clicks.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-2">
+                  {["Habit loops", "Objective prep", "Resource checks", "Wave states", "Cooldown reminders"].map(
+                    (chip) => (
+                      <span
+                        key={chip}
+                        className="inline-flex items-center font-mono text-[11px] text-muted-foreground border border-border rounded-full px-2.5 py-1"
+                      >
+                        {chip}
+                      </span>
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div className="grid gap-3">
+                {CUES.map((c, i) => (
+                  <CueCard key={i} {...c} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Coaches */}
+        <section className="relative border-t border-border px-4 sm:px-6 py-24 sm:py-28">
+          <div className="mx-auto max-w-5xl">
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-card">
+              <div
+                className="absolute inset-0 bg-dots opacity-40 pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-accent/10 blur-3xl pointer-events-none"
+                aria-hidden="true"
+              />
+              <div className="relative p-8 sm:p-14 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+                <div className="max-w-xl">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
+                    ◇ &nbsp;For coaches & creators
+                  </p>
+                  <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.02em] leading-[1.1]">
+                    Package your system. Ship it to your students.
+                  </h2>
+                  <p className="mt-4 text-muted-foreground leading-relaxed">
+                    Turn your coaching notes into cuepacks. Share them in one click. Help the
+                    habits stick even when you&apos;re not on the call.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="h-11 px-5 gap-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
+                  >
+                    <Link href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
+                      <DiscordIcon size={16} />
+                      Talk on Discord
+                      <ArrowRight size={14} aria-hidden="true" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="h-11 px-5 gap-2 rounded-md bg-transparent border-border hover:bg-muted hover:text-foreground hover:border-border font-medium"
+                  >
+                    <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+                      <Github size={16} aria-hidden="true" />
+                      Read the docs
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="relative border-t border-border px-4 sm:px-6 py-24 sm:py-28 overflow-hidden">
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-full bg-dots opacity-30 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]"
+            aria-hidden="true"
+          />
+          <div className="relative mx-auto max-w-3xl text-center">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
+              ◉ &nbsp;Ready when you are
+            </p>
+            <h2 className="text-4xl sm:text-6xl font-semibold tracking-[-0.03em] leading-[1.05] text-balance">
+              Install once. <span className="text-muted-foreground">Climb for the rest of the season.</span>
             </h2>
-          </div>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Interested in integrating Leaguedex into your coaching workflow?
-            Let's talk about how we can help your students improve.
-          </p>
-          <div>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="group border-2 border-accent/30 text-accent hover:!bg-accent/10 hover:!text-accent hover:border-accent/60 font-semibold gap-2 px-8 backdrop-blur-sm bg-transparent transition-all duration-300"
-            >
-              <Link
-                href="https://discord.gg/ycFJxnVvMZ"
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="mt-9 flex flex-col sm:flex-row gap-2.5 justify-center">
+              <Button
+                asChild
+                size="lg"
+                className="group h-11 px-5 gap-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
               >
-                <DiscordIcon size={18} />
-                Join Discord to Discuss
-              </Link>
-            </Button>
+                <a href={DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">
+                  <Download size={16} aria-hidden="true" />
+                  Download Leaguedex
+                  <ArrowRight
+                    size={14}
+                    aria-hidden="true"
+                    className="opacity-60 group-hover:translate-x-0.5 transition-transform"
+                  />
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-11 px-5 gap-2 rounded-md bg-transparent border-border hover:bg-muted hover:text-foreground hover:border-border font-medium"
+              >
+                <Link href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
+                  <DiscordIcon size={16} />
+                  Join the Discord
+                </Link>
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-12 px-4 sm:px-6 lg:px-8 bg-background">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 mb-12">
-            <div>
-              <Link
-                href="/"
-                className="flex items-center gap-2 mb-4 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md px-2 -ml-2 w-fit"
-                aria-label="Leaguedex Home"
-              >
-                <Image
-                  src="/logo.svg"
-                  alt=""
-                  width={24}
-                  height={24}
-                  className="w-6 h-6"
-                  aria-hidden="true"
-                />
-                <span className="font-bold text-foreground">Leaguedex</span>
+      <footer className="border-t border-border px-4 sm:px-6 py-12 bg-background">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+            <div className="lg:col-span-2">
+              <Link href="/" className="flex items-center gap-2 mb-3 w-fit" aria-label="Leaguedex Home">
+                <Image src="/logo.svg" alt="" width={22} height={22} aria-hidden="true" />
+                <span className="font-semibold tracking-tight">leaguedex</span>
               </Link>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Your virtual coach for League of Legends
+              <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
+                Your virtual coach for League of Legends. Open source, runs locally, free forever.
               </p>
             </div>
 
-            <div>
-              <h4 className="font-semibold text-foreground mb-4">Community</h4>
-              <ul className="space-y-3 text-sm">
-                <li>
-                  <Link
-                    href="https://discord.gg/ycFJxnVvMZ"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-sm px-1"
-                  >
-                    Discord
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://github.com/donnyroufs/leaguedex.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-sm px-1"
-                  >
-                    GitHub
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="https://github.com/donnyroufs/leaguedex.app/issues"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-sm px-1"
-                  >
-                    Issues
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            <FooterColumn title="Product">
+              <FooterLink href={DOWNLOAD_URL}>Download</FooterLink>
+              <FooterLink href={RELEASES_URL}>Releases</FooterLink>
+              <FooterLink href={REPO_URL}>Source code</FooterLink>
+            </FooterColumn>
 
-            <div className="sm:col-span-2 lg:col-span-1">
-              <h4 className="font-semibold text-foreground mb-4">Resources</h4>
-              <ul className="space-y-3 text-sm">
-                <li>
-                  <Link
-                    href="https://github.com/donnyroufs/leaguedex.app/releases/latest"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-sm px-1"
-                  >
-                    Releases
-                  </Link>
-                </li>
-              </ul>
-            </div>
+            <FooterColumn title="Community">
+              <FooterLink href={DISCORD_URL}>Discord</FooterLink>
+              <FooterLink href={REPO_URL}>GitHub</FooterLink>
+              <FooterLink href={ISSUES_URL}>Issues</FooterLink>
+            </FooterColumn>
           </div>
 
-          <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground text-center sm:text-left">
-              © 2025 Leaguedex. Open source.
-            </p>
-            <div className="flex items-center gap-6">
+          <div className="border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+              <span>© {new Date().getFullYear()} leaguedex</span>
+              <span className="text-border">/</span>
+              <span>MIT License</span>
+            </div>
+            <div className="flex items-center gap-1">
               <Link
-                href="https://github.com/donnyroufs/leaguedex.app"
+                href={REPO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md p-1.5"
-                aria-label="View Leaguedex on GitHub"
+                aria-label="GitHub"
+                className="text-muted-foreground hover:text-foreground transition-colors p-2 rounded-md hover:bg-muted"
               >
-                <Github size={20} aria-hidden="true" />
+                <Github size={16} aria-hidden="true" />
               </Link>
               <Link
-                href="https://discord.gg/ycFJxnVvMZ"
+                href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background rounded-md p-1.5"
-                aria-label="Join Leaguedex Discord community"
+                aria-label="Discord"
+                className="text-muted-foreground hover:text-foreground transition-colors p-2 rounded-md hover:bg-muted"
               >
-                <DiscordIcon size={20} />
+                <DiscordIcon size={16} />
               </Link>
             </div>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+function TrustItem({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string;
+  value: string;
+  accent?: boolean;
+}) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-1 px-4 py-3">
+      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+        {label}
+      </span>
+      <span
+        className={`text-sm font-semibold tracking-tight ${accent ? "text-accent" : "text-foreground"}`}
+      >
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function FeatureTile({ num, icon: Icon, title, desc }: Feature) {
+  return (
+    <div className="group relative bg-card p-7 flex flex-col gap-4 hover:bg-card/60 transition-colors">
+      <div className="flex items-center justify-between">
+        <div className="w-10 h-10 rounded-md border border-border bg-background/60 flex items-center justify-center group-hover:border-accent/60 group-hover:text-accent transition-colors">
+          <Icon size={18} aria-hidden="true" />
+        </div>
+        <span className="font-mono text-[11px] tracking-[0.18em] text-muted-foreground group-hover:text-accent transition-colors">
+          {num}
+        </span>
+      </div>
+      <div>
+        <h3 className="text-[17px] font-semibold tracking-tight text-foreground mb-1.5">
+          {title}
+        </h3>
+        <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function CueCard({ kind, trigger, message, tag }: Cue) {
+  const isState = kind === "STATE";
+  return (
+    <div className="group relative rounded-lg border border-border bg-card p-4 sm:p-5 hover:border-accent/40 transition-colors">
+      <div className="flex items-center justify-between mb-3">
+        <span
+          className={`font-mono text-[10px] uppercase tracking-[0.18em] px-1.5 py-0.5 rounded border ${
+            isState
+              ? "text-accent border-accent/30 bg-accent/5"
+              : "text-muted-foreground border-border"
+          }`}
+        >
+          {kind}
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          #{tag}
+        </span>
+      </div>
+      <div className="font-mono text-[13px] text-muted-foreground mb-3 flex items-start gap-2 min-w-0">
+        <span className="text-accent shrink-0 select-none">▸</span>
+        <span className="truncate min-w-0">{trigger}</span>
+      </div>
+      <p className="text-[15px] sm:text-base text-foreground leading-snug">
+        &ldquo;{message}&rdquo;
+      </p>
+    </div>
+  );
+}
+
+function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h4 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
+        {title}
+      </h4>
+      <ul className="space-y-2.5">{children}</ul>
+    </div>
+  );
+}
+
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <li>
+      <Link
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        {children}
+      </Link>
+    </li>
   );
 }
