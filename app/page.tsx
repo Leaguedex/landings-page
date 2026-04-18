@@ -19,9 +19,16 @@ const DOWNLOAD_URL =
 const REPO_URL = "https://github.com/donnyroufs/leaguedex.app";
 const DISCORD_URL = "https://discord.gg/ycFJxnVvMZ";
 const ISSUES_URL = "https://github.com/donnyroufs/leaguedex.app/issues";
-const RELEASES_URL = "https://github.com/donnyroufs/leaguedex.app/releases/latest";
+const RELEASES_URL =
+  "https://github.com/donnyroufs/leaguedex.app/releases/latest";
 
-function DiscordIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
+function DiscordIcon({
+  size = 18,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <svg
       width={size}
@@ -80,12 +87,37 @@ const FEATURES: Feature[] = [
   },
 ];
 
-type Cue = { trigger: string; kind: "TIMER" | "STATE"; message: string; tag: string };
+type Cue = {
+  trigger: string;
+  kind: "TIMER" | "STATE";
+  message: string;
+  tag: string;
+};
 const CUES: Cue[] = [
-  { kind: "TIMER", trigger: "every 00:30", message: "Check your minimap.", tag: "habit" },
-  { kind: "STATE", trigger: "dragon_spawn - 00:30", message: "Ward the pit, prep rotation.", tag: "objective" },
-  { kind: "TIMER", trigger: "at 14:00", message: "Herald in one minute.", tag: "habit" },
-  { kind: "STATE", trigger: "low_mana && lane_pushed", message: "Back to base?", tag: "resource" },
+  {
+    kind: "TIMER",
+    trigger: "every 00:30",
+    message: "Check your minimap.",
+    tag: "habit",
+  },
+  {
+    kind: "STATE",
+    trigger: "dragon_spawn - 00:30",
+    message: "Ward the pit, prep rotation.",
+    tag: "objective",
+  },
+  {
+    kind: "TIMER",
+    trigger: "at 14:00",
+    message: "Herald in one minute.",
+    tag: "habit",
+  },
+  {
+    kind: "STATE",
+    trigger: "low_mana && lane_pushed",
+    message: "Back to base?",
+    tag: "resource",
+  },
 ];
 
 export default function Home() {
@@ -120,9 +152,11 @@ export default function Home() {
               className="w-[22px] h-[22px]"
               aria-hidden="true"
             />
-            <span className="font-semibold tracking-tight text-[15px]">leaguedex</span>
+            <span className="font-semibold tracking-tight text-[15px]">
+              leaguedex
+            </span>
             <span className="hidden sm:inline-flex items-center font-mono text-[10px] leading-none uppercase text-muted-foreground border border-border rounded px-1.5 py-1 ml-1">
-              v1.0 · beta
+              v0.5.0 · beta
             </span>
           </Link>
 
@@ -210,15 +244,18 @@ export default function Home() {
             >
               Your virtual coach,
               <br />
-              <span className="text-muted-foreground">whispering in your ear.</span>
+              <span className="text-muted-foreground">
+                whispering in your ear.
+              </span>
             </h1>
 
             <p
               className="mt-6 max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed text-balance opacity-0 animate-fade-in-up"
               style={{ animationDelay: "0.25s" }}
             >
-              Leaguedex fires custom voice cues on timers or in-game state. Build habits,
-              sharpen skills, stay mentally sharp, without ever looking away from the map.
+              Leaguedex fires custom voice cues on timers or in-game state.
+              Build habits, sharpen skills, stay mentally sharp, without ever
+              looking away from the map.
             </p>
 
             <div
@@ -230,7 +267,11 @@ export default function Home() {
                 size="lg"
                 className="group h-11 px-5 gap-2 rounded-md font-medium bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_0_0_1px_rgba(0,0,0,0.1)]"
               >
-                <a href={DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={DOWNLOAD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Download size={16} aria-hidden="true" />
                   Download for Windows
                   <ArrowRight
@@ -257,7 +298,7 @@ export default function Home() {
               className="mt-5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground opacity-0 animate-fade-in-up"
               style={{ animationDelay: "0.45s" }}
             >
-              Windows 10+ &nbsp;·&nbsp; ~12&nbsp;MB &nbsp;·&nbsp; No account
+              Windows 11 &nbsp;·&nbsp;
             </p>
 
             {/* Video preview */}
@@ -311,7 +352,9 @@ export default function Home() {
               </p>
               <h2 className="text-3xl sm:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-balance">
                 Built for players who want to{" "}
-                <span className="text-muted-foreground">improve deliberately.</span>
+                <span className="text-muted-foreground">
+                  improve deliberately.
+                </span>
               </h2>
             </div>
 
@@ -335,21 +378,26 @@ export default function Home() {
                   Turn any habit into a cue.
                 </h2>
                 <p className="mt-5 text-base sm:text-lg text-muted-foreground leading-relaxed max-w-lg">
-                  Compose cues like you&apos;d compose a build path. Ping yourself at a
-                  timestamp, react to a state change, or chain conditions together. Save them
-                  as a cuepack, share them with your team, iterate until it clicks.
+                  Compose cues like you&apos;d compose a build path. Ping
+                  yourself at a timestamp, react to a state change, or chain
+                  conditions together. Save them as a cuepack, share them with
+                  your team, iterate until it clicks.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-2">
-                  {["Habit loops", "Objective prep", "Resource checks", "Wave states", "Cooldown reminders"].map(
-                    (chip) => (
-                      <span
-                        key={chip}
-                        className="inline-flex items-center font-mono text-[11px] text-muted-foreground border border-border rounded-full px-2.5 py-1"
-                      >
-                        {chip}
-                      </span>
-                    )
-                  )}
+                  {[
+                    "Habit loops",
+                    "Objective prep",
+                    "Resource checks",
+                    "Wave states",
+                    "Cooldown reminders",
+                  ].map((chip) => (
+                    <span
+                      key={chip}
+                      className="inline-flex items-center font-mono text-[11px] text-muted-foreground border border-border rounded-full px-2.5 py-1"
+                    >
+                      {chip}
+                    </span>
+                  ))}
                 </div>
               </div>
 
@@ -383,8 +431,9 @@ export default function Home() {
                     Package your system. Ship it to your students.
                   </h2>
                   <p className="mt-4 text-muted-foreground leading-relaxed">
-                    Turn your coaching notes into cuepacks. Share them in one click. Help the
-                    habits stick even when you&apos;re not on the call.
+                    Turn your coaching notes into cuepacks. Share them in one
+                    click. Help the habits stick even when you&apos;re not on
+                    the call.
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
@@ -393,7 +442,11 @@ export default function Home() {
                     size="lg"
                     className="h-11 px-5 gap-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
                   >
-                    <Link href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
+                    <Link
+                      href={DISCORD_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <DiscordIcon size={16} />
                       Talk on Discord
                       <ArrowRight size={14} aria-hidden="true" />
@@ -405,7 +458,11 @@ export default function Home() {
                     variant="outline"
                     className="h-11 px-5 gap-2 rounded-md bg-transparent border-border hover:bg-muted hover:text-foreground hover:border-border font-medium"
                   >
-                    <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={REPO_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <Github size={16} aria-hidden="true" />
                       Read the docs
                     </a>
@@ -427,7 +484,10 @@ export default function Home() {
               ◉ &nbsp;Ready when you are
             </p>
             <h2 className="text-4xl sm:text-6xl font-semibold tracking-[-0.03em] leading-[1.05] text-balance">
-              Install once. <span className="text-muted-foreground">Climb for the rest of the season.</span>
+              Install once.{" "}
+              <span className="text-muted-foreground">
+                Climb for the rest of the season.
+              </span>
             </h2>
             <div className="mt-9 flex flex-col sm:flex-row gap-2.5 justify-center">
               <Button
@@ -435,7 +495,11 @@ export default function Home() {
                 size="lg"
                 className="group h-11 px-5 gap-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
               >
-                <a href={DOWNLOAD_URL} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={DOWNLOAD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Download size={16} aria-hidden="true" />
                   Download Leaguedex
                   <ArrowRight
@@ -451,7 +515,11 @@ export default function Home() {
                 variant="outline"
                 className="h-11 px-5 gap-2 rounded-md bg-transparent border-border hover:bg-muted hover:text-foreground hover:border-border font-medium"
               >
-                <Link href={DISCORD_URL} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={DISCORD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <DiscordIcon size={16} />
                   Join the Discord
                 </Link>
@@ -466,12 +534,23 @@ export default function Home() {
         <div className="mx-auto max-w-6xl">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
             <div className="lg:col-span-2">
-              <Link href="/" className="flex items-center gap-2 mb-3 w-fit" aria-label="Leaguedex Home">
-                <Image src="/logo.svg" alt="" width={22} height={22} aria-hidden="true" />
+              <Link
+                href="/"
+                className="flex items-center gap-2 mb-3 w-fit"
+                aria-label="Leaguedex Home"
+              >
+                <Image
+                  src="/logo.svg"
+                  alt=""
+                  width={22}
+                  height={22}
+                  aria-hidden="true"
+                />
                 <span className="font-semibold tracking-tight">leaguedex</span>
               </Link>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
-                Your virtual coach for League of Legends. Open source, runs locally, free forever.
+                Your virtual coach for League of Legends. Open source, runs
+                locally, free forever.
               </p>
             </div>
 
@@ -559,7 +638,9 @@ function FeatureTile({ num, icon: Icon, title, desc }: Feature) {
         <h3 className="text-[17px] font-semibold tracking-tight text-foreground mb-1.5">
           {title}
         </h3>
-        <p className="text-[14px] text-muted-foreground leading-relaxed">{desc}</p>
+        <p className="text-[14px] text-muted-foreground leading-relaxed">
+          {desc}
+        </p>
       </div>
     </div>
   );
@@ -594,7 +675,13 @@ function CueCard({ kind, trigger, message, tag }: Cue) {
   );
 }
 
-function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
+function FooterColumn({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <h4 className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-4">
@@ -605,7 +692,13 @@ function FooterColumn({ title, children }: { title: string; children: React.Reac
   );
 }
 
-function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+function FooterLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <li>
       <Link
