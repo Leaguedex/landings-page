@@ -156,7 +156,7 @@ export default function Home() {
               leaguedex
             </span>
             <span className="hidden sm:inline-flex items-center font-mono text-[10px] leading-none uppercase text-muted-foreground border border-border rounded px-1.5 py-1 ml-1">
-              v0.5.0 · beta
+              v0.5.0
             </span>
           </Link>
 
@@ -298,7 +298,7 @@ export default function Home() {
               className="mt-5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground opacity-0 animate-fade-in-up"
               style={{ animationDelay: "0.45s" }}
             >
-              Windows 11 &nbsp;·&nbsp;
+              Windows 11
             </p>
 
             {/* Video preview */}
