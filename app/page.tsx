@@ -114,7 +114,7 @@ const CUES: Cue[] = [
   },
   {
     kind: "STATE",
-    trigger: "low_mana && lane_pushed",
+    trigger: "low_mana",
     message: "Back to base?",
     tag: "resource",
   },
@@ -152,10 +152,10 @@ export default function Home() {
               className="w-[22px] h-[22px]"
               aria-hidden="true"
             />
-            <span className="font-semibold tracking-tight text-[15px]">
+            <span className="font-semibold tracking-tight text-[15px] leading-none">
               leaguedex
             </span>
-            <span className="hidden sm:inline-flex items-center font-mono text-[10px] leading-none uppercase text-muted-foreground border border-border rounded px-1.5 py-1 ml-1">
+            <span className="hidden sm:inline-flex items-center font-mono text-[10px] leading-none uppercase text-muted-foreground border border-border rounded px-1.5 py-[3px] ml-1">
               v0.5.0
             </span>
           </Link>
@@ -229,7 +229,7 @@ export default function Home() {
                   <span className="absolute inset-0 rounded-full bg-accent/60 blur-[3px] animate-pulse-soft" />
                   <span className="relative w-1.5 h-1.5 rounded-full bg-accent" />
                 </span>
-                Open source · Free forever
+                Open source
                 <ArrowUpRight
                   size={12}
                   className="opacity-60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
@@ -333,16 +333,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Trust strip */}
-        <section className="relative border-y border-border bg-card/40 backdrop-blur-sm">
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 grid grid-cols-2 sm:grid-cols-4 divide-x divide-border [&>*:nth-child(n+3)]:border-t sm:[&>*:nth-child(n+3)]:border-t-0">
-            <TrustItem label="License" value="MIT" />
-            <TrustItem label="Platform" value="Windows 10+" />
-            <TrustItem label="Install size" value="~12 MB" />
-            <TrustItem label="Price" value="Free" accent />
-          </div>
-        </section>
-
         {/* Features */}
         <section className="relative px-4 sm:px-6 py-24 sm:py-28">
           <div className="relative mx-auto max-w-6xl">
@@ -405,69 +395,6 @@ export default function Home() {
                 {CUES.map((c, i) => (
                   <CueCard key={i} {...c} />
                 ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Coaches */}
-        <section className="relative border-t border-border px-4 sm:px-6 py-24 sm:py-28">
-          <div className="mx-auto max-w-5xl">
-            <div className="relative overflow-hidden rounded-2xl border border-border bg-card">
-              <div
-                className="absolute inset-0 bg-dots opacity-40 pointer-events-none"
-                aria-hidden="true"
-              />
-              <div
-                className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-accent/10 blur-3xl pointer-events-none"
-                aria-hidden="true"
-              />
-              <div className="relative p-8 sm:p-14 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-                <div className="max-w-xl">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
-                    ◇ &nbsp;For coaches & creators
-                  </p>
-                  <h2 className="text-3xl sm:text-4xl font-semibold tracking-[-0.02em] leading-[1.1]">
-                    Package your system. Ship it to your students.
-                  </h2>
-                  <p className="mt-4 text-muted-foreground leading-relaxed">
-                    Turn your coaching notes into cuepacks. Share them in one
-                    click. Help the habits stick even when you&apos;re not on
-                    the call.
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5 shrink-0">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="h-11 px-5 gap-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
-                  >
-                    <Link
-                      href={DISCORD_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <DiscordIcon size={16} />
-                      Talk on Discord
-                      <ArrowRight size={14} aria-hidden="true" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="h-11 px-5 gap-2 rounded-md bg-transparent border-border hover:bg-muted hover:text-foreground hover:border-border font-medium"
-                  >
-                    <a
-                      href={REPO_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Github size={16} aria-hidden="true" />
-                      Read the docs
-                    </a>
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
@@ -550,7 +477,7 @@ export default function Home() {
               </Link>
               <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
                 Your virtual coach for League of Legends. Open source, runs
-                locally, free forever.
+                locally.
               </p>
             </div>
 
@@ -596,29 +523,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function TrustItem({
-  label,
-  value,
-  accent = false,
-}: {
-  label: string;
-  value: string;
-  accent?: boolean;
-}) {
-  return (
-    <div className="flex flex-col items-center justify-center gap-1 px-4 py-3">
-      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-        {label}
-      </span>
-      <span
-        className={`text-sm font-semibold tracking-tight ${accent ? "text-accent" : "text-foreground"}`}
-      >
-        {value}
-      </span>
     </div>
   );
 }
