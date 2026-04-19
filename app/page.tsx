@@ -155,9 +155,6 @@ export default function Home() {
             <span className="font-semibold tracking-tight text-[15px] leading-none">
               leaguedex
             </span>
-            <span className="hidden sm:inline-flex items-center font-mono text-[10px] leading-none uppercase text-muted-foreground border border-border rounded px-1.5 py-[3px] ml-1">
-              v0.5.0
-            </span>
           </Link>
 
           <div className="flex items-center gap-1">
@@ -378,7 +375,6 @@ export default function Home() {
                     "Habit loops",
                     "Objective prep",
                     "Resource checks",
-                    "Wave states",
                     "Cooldown reminders",
                   ].map((chip) => (
                     <span
